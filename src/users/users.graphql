@@ -1,6 +1,6 @@
 type Mutation {
   createUser(name: String!, roomId: ID!): User!
-  deleteUser(name: String!, roomId: ID!): User!
+  deleteUser(id: ID!): User!
 }
 
 type Subscription {
@@ -9,6 +9,7 @@ type Subscription {
 }
 
 type User {
+  id: ID!
   name: String!
   roomId: ID!
 }

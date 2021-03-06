@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { Room } from 'src/graphql';
-
 import { v4 as uuidv4 } from 'uuid';
+
+import { Room } from 'src/graphql';
 
 @Injectable()
 export class RoomsService {

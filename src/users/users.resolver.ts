@@ -22,8 +22,8 @@ export class UsersResolver {
   }
 
   @Mutation('deleteUser')
-  delete(@Args('name') name: string, @Args('roomId') roomId: string): User {
-    const deletedUser = this.usersService.delete(name, roomId);
+  delete(@Args('id') id: string): User {
+    const deletedUser = this.usersService.delete(id);
     // TODO: Limit the scope of publish to the room
     pubSub.publish(USER_DELETED, { userDeleted: deletedUser });
     return deletedUser;
