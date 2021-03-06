@@ -4,8 +4,17 @@ type Query {
 
 type Mutation {
   createRoom: Room!
+  createUser(name: String!): User!
+}
+
+type Subscription {
+  userCreated: User
 }
 
 type Room {
   id: ID!
+}
+
+type User {
+  name: String!
 }

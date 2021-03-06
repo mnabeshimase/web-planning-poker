@@ -12,8 +12,17 @@ export interface IQuery {
 
 export interface IMutation {
     createRoom(): Room | Promise<Room>;
+    createUser(name: string): User | Promise<User>;
+}
+
+export interface ISubscription {
+    userCreated(): User | Promise<User>;
 }
 
 export interface Room {
     id: string;
+}
+
+export interface User {
+    name: string;
 }
