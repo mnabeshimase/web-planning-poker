@@ -13,7 +13,10 @@ import { UsersService } from './users/users.service';
 @Module({
   imports: [
     GraphQLModule.forRoot({
-      definitions: { path: join(cwd(), 'src/graphql.ts') },
+      definitions: {
+        outputAs: 'class',
+        path: join(cwd(), 'src/graphql.ts'),
+      },
       installSubscriptionHandlers: true,
       typePaths: ['./**/*.graphql'],
     }),

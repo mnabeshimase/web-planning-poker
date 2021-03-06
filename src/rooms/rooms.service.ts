@@ -5,14 +5,14 @@ import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class RoomsService {
-  private rooms = [];
+  private rooms: Room[] = [];
   get(id: string): Room {
     return { id };
   }
 
   create(): Room {
-    const room = { id: uuidv4() };
-    this.rooms = [this.rooms, room];
+    const room = { id: uuidv4(), users: [] };
+    this.rooms = [...this.rooms, room];
     return room;
   }
 }

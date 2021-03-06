@@ -1,0 +1,12 @@
+type Mutation {
+  createUser(name: String!, roomId: ID!): User!
+}
+
+type Subscription {
+  userCreated: User
+}
+
+type User {
+  name: String!
+  roomId: ID!
+}

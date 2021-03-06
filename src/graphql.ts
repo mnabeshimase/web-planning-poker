@@ -6,23 +6,26 @@
 
 /* tslint:disable */
 /* eslint-disable */
-export interface IQuery {
-    room(id: string): Room | Promise<Room>;
+export abstract class IQuery {
+    abstract room(id: string): Room | Promise<Room>;
 }
 
-export interface IMutation {
-    createRoom(): Room | Promise<Room>;
-    createUser(name: string): User | Promise<User>;
+export abstract class IMutation {
+    abstract createRoom(): Room | Promise<Room>;
+
+    abstract createUser(name: string, roomId: string): User | Promise<User>;
 }
 
-export interface ISubscription {
-    userCreated(): User | Promise<User>;
-}
-
-export interface Room {
+export class Room {
     id: string;
+    users?: User[];
 }
 
-export interface User {
+export abstract class ISubscription {
+    abstract userCreated(): User | Promise<User>;
+}
+
+export class User {
     name: string;
+    roomId: string;
 }
