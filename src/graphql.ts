@@ -14,6 +14,8 @@ export abstract class IMutation {
     abstract createRoom(): Room | Promise<Room>;
 
     abstract createUser(name: string, roomId: string): User | Promise<User>;
+
+    abstract deleteUser(name: string, roomId: string): User | Promise<User>;
 }
 
 export class Room {
@@ -23,6 +25,8 @@ export class Room {
 
 export abstract class ISubscription {
     abstract userCreated(): User | Promise<User>;
+
+    abstract userDeleted(): User | Promise<User>;
 }
 
 export class User {

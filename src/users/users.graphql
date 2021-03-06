@@ -1,9 +1,11 @@
 type Mutation {
   createUser(name: String!, roomId: ID!): User!
+  deleteUser(name: String!, roomId: ID!): User!
 }
 
 type Subscription {
   userCreated: User
+  userDeleted: User
 }
 
 type User {

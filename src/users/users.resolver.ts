@@ -7,6 +7,7 @@ import { UsersService } from './users.service';
 const pubSub = new PubSub();
 
 const USER_CREATED = 'userCreated';
+const USER_DELETED = 'userDeleted';
 
 @Resolver('User')
 export class UsersResolver {
@@ -20,8 +21,21 @@ export class UsersResolver {
     return user;
   }
 
+  @Mutation('deleteUser')
+  delete(@Args('name') name: string, @Args('roomId') roomId: string): User {
+    const deletedUser = this.usersService.delete(name, roomId);
+    // TODO: Limit the scope of publish to the room
+    pubSub.publish(USER_DELETED, { userDeleted: deletedUser });
+    return deletedUser;
+  }
+
   @Subscription()
   userCreated() {
     return pubSub.asyncIterator(USER_CREATED);
+  }
+
+  @Subscription()
+  userDeleted() {
+    return pubSub.asyncIterator(USER_DELETED);
   }
 }
