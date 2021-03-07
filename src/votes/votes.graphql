@@ -1,0 +1,19 @@
+type Query {
+  listVotesByRoomId(id: ID!): [Vote]
+}
+
+type Mutation {
+  upsertVote(upsertVoteInput: UpsertVoteInput!): Vote!
+}
+
+type Vote {
+  userId: ID!
+  roomId: ID!
+  score: Int!
+}
+
+input UpsertVoteInput {
+  userId: ID!
+  roomId: ID!
+  score: Int!
+}

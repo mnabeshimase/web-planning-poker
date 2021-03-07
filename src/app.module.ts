@@ -9,6 +9,8 @@ import { RoomsResolver } from './rooms/rooms.resolver';
 import { RoomsService } from './rooms/rooms.service';
 import { UsersResolver } from './users/users.resolver';
 import { UsersService } from './users/users.service';
+import { VotesResolver } from './votes/votes.resolver';
+import { VotesService } from './votes/votes.service';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { UsersService } from './users/users.service';
     RoomsService,
     UsersResolver,
     UsersService,
+    VotesResolver,
+    VotesService,
   ],
 })
 export class AppModule {}

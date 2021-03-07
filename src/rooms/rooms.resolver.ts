@@ -1,11 +1,4 @@
-import {
-  Args,
-  Resolver,
-  Query,
-  Mutation,
-  ResolveField,
-  Parent,
-} from '@nestjs/graphql';
+import { Args, Resolver, Query, ResolveField, Parent } from '@nestjs/graphql';
 
 import { UsersService } from 'src/users/users.service';
 import { RoomsService } from './rooms.service';
