@@ -2,8 +2,12 @@ type Mutation {
   createStory(roomId: String!, description: String!): Story!
 }
 
+type Subscription {
+  storyCreated: Story!
+}
+
 type Story {
   id: ID!
-  roomID: ID!
+  roomId: ID!
   description: String!
 }

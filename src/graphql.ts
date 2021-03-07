@@ -46,6 +46,8 @@ export abstract class IMutation {
 export abstract class ISubscription {
     abstract roomUpdated(): Room | Promise<Room>;
 
+    abstract storyCreated(): Story | Promise<Story>;
+
     abstract userCreated(): User | Promise<User>;
 
     abstract userDeleted(): User | Promise<User>;
@@ -58,11 +60,12 @@ export class Room {
     users?: User[];
     votes?: Vote[];
     phase: Phase;
+    stories?: Story[];
 }
 
 export class Story {
     id: string;
-    roomID: string;
+    roomId: string;
     description: string;
 }
 

@@ -1,5 +1,12 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Resolver, Subscription } from '@nestjs/graphql';
+import { PubSub } from 'graphql-subscriptions';
+import { Story } from 'src/graphql';
 import { StoriesService } from './stories.service';
+
+const STORY_CREATED = 'storyCreated';
+
+// TODO: inject pubsub as dependency
+const pubSub = new PubSub();
 
 @Resolver()
 export class StoriesResolver {
@@ -9,7 +16,14 @@ export class StoriesResolver {
   create(
     @Args('roomId') roomId: string,
     @Args('description') description: string,
-  ) {
-    return this.storiesService.create(roomId, description);
+  ): Story {
+    const story = this.storiesService.create(roomId, description);
+    pubSub.publish(STORY_CREATED, { storyCreated: story });
+    return story;
+  }
+
+  @Subscription()
+  storyCreated() {
+    return pubSub.asyncIterator(STORY_CREATED);
   }
 }

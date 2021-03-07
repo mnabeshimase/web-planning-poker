@@ -21,6 +21,7 @@ type Room {
   users: [User!]
   votes: [Vote!]
   phase: Phase!
+  stories: [Story!]
 }
 
 input UpdateRoomInput {
