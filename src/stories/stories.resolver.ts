@@ -14,7 +14,7 @@ export class StoriesResolver {
 
   @Query('listStoriesByRoomId')
   listStoriesByRoomId(@Args('id') id: string) {
-    return this.listStoriesByRoomId(id);
+    return this.storiesService.listStoriesByRoomId(id);
   }
 
   @Mutation('createStory')

@@ -3,7 +3,7 @@ type Query {
 }
 
 type Mutation {
-  createStory(roomId: String!, description: String!): Story!
+  createStory(roomId: ID!, description: String!): Story!
 }
 
 type Subscription {
