@@ -8,11 +8,12 @@ import {
   Mutation,
 } from '@nestjs/graphql';
 
-import { Room, User, Vote, UpdateRoomInput } from '../graphql';
+import { Room, User, Vote, UpdateRoomInput, Story } from '../graphql';
 import { UsersService } from 'src/users/users.service';
 import { RoomsService } from './rooms.service';
 import { VotesService } from 'src/votes/votes.service';
 import { PubSub } from 'graphql-subscriptions';
+import { StoriesService } from 'src/stories/stories.service';
 
 const ROOM_UPDATED = 'roomUpdated';
 
@@ -24,6 +25,7 @@ export class RoomsResolver {
     private roomsService: RoomsService,
     private usersService: UsersService,
     private votesService: VotesService,
+    private storiesService: StoriesService,
   ) {}
 
   @Query('room')
@@ -53,5 +55,11 @@ export class RoomsResolver {
   votes(@Parent() room: Room): Vote[] {
     const { id } = room;
     return this.votesService.listVotesByRoomId(id);
+  }
+
+  @ResolveField()
+  stories(@Parent() room: Room): Story[] {
+    const { id } = room;
+    return this.storiesService.listStoriesByRoomId(id);
   }
 }

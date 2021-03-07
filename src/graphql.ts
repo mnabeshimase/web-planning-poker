@@ -17,6 +17,7 @@ export class UpdateRoomInput {
     userIds?: string[];
     voteIds?: string[];
     phase?: Phase;
+    currentStoryId?: string;
 }
 
 export class UpsertVoteInput {
@@ -63,6 +64,7 @@ export class Room {
     votes?: Vote[];
     phase: Phase;
     stories?: Story[];
+    currentStoryId?: string;
 }
 
 export class Story {
