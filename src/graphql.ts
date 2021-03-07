@@ -9,7 +9,7 @@
 export class UpsertVoteInput {
     userId: string;
     roomId: string;
-    score: number;
+    score: string;
 }
 
 export abstract class IQuery {
@@ -35,6 +35,8 @@ export abstract class ISubscription {
     abstract userCreated(): User | Promise<User>;
 
     abstract userDeleted(): User | Promise<User>;
+
+    abstract voteUpserted(): Vote | Promise<Vote>;
 }
 
 export class User {
@@ -46,5 +48,5 @@ export class User {
 export class Vote {
     userId: string;
     roomId: string;
-    score: number;
+    score: string;
 }

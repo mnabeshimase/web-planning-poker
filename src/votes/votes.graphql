@@ -6,14 +6,18 @@ type Mutation {
   upsertVote(upsertVoteInput: UpsertVoteInput!): Vote!
 }
 
+type Subscription {
+  voteUpserted: Vote
+}
+
 type Vote {
   userId: ID!
   roomId: ID!
-  score: Int!
+  score: String!
 }
 
 input UpsertVoteInput {
   userId: ID!
   roomId: ID!
-  score: Int!
+  score: String!
 }
