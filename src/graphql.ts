@@ -6,6 +6,12 @@
 
 /* tslint:disable */
 /* eslint-disable */
+export enum Phase {
+    INIT = "INIT",
+    VOTE = "VOTE",
+    DISCUSSION = "DISCUSSION"
+}
+
 export class UpsertVoteInput {
     userId: string;
     roomId: string;
@@ -22,6 +28,7 @@ export class Room {
     id: string;
     users?: User[];
     votes?: Vote[];
+    phase: Phase;
 }
 
 export abstract class IMutation {

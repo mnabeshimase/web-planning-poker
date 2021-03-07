@@ -1,3 +1,9 @@
+enum Phase {
+  INIT
+  VOTE
+  DISCUSSION
+}
+
 type Query {
   room(id: ID!): Room!
 }
@@ -6,4 +12,5 @@ type Room {
   id: ID!
   users: [User!]
   votes: [Vote!]
+  phase: Phase!
 }
