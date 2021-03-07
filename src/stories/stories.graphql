@@ -1,0 +1,9 @@
+type Mutation {
+  createStory(roomId: String!, description: String!): Story!
+}
+
+type Story {
+  id: ID!
+  roomID: ID!
+  description: String!
+}

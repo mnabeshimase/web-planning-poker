@@ -34,6 +34,8 @@ export abstract class IQuery {
 export abstract class IMutation {
     abstract updateRoom(updateRoomInput: UpdateRoomInput): Room | Promise<Room>;
 
+    abstract createStory(roomId: string, description: string): Story | Promise<Story>;
+
     abstract createUser(name: string, roomId?: string): User | Promise<User>;
 
     abstract deleteUser(id: string): User | Promise<User>;
@@ -56,6 +58,12 @@ export class Room {
     users?: User[];
     votes?: Vote[];
     phase: Phase;
+}
+
+export class Story {
+    id: string;
+    roomID: string;
+    description: string;
 }
 
 export class User {

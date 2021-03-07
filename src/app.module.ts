@@ -11,6 +11,8 @@ import { UsersResolver } from './users/users.resolver';
 import { UsersService } from './users/users.service';
 import { VotesResolver } from './votes/votes.resolver';
 import { VotesService } from './votes/votes.service';
+import { StoriesResolver } from './stories/stories.resolver';
+import { StoriesService } from './stories/stories.service';
 
 @Module({
   imports: [
@@ -32,6 +34,8 @@ import { VotesService } from './votes/votes.service';
     UsersService,
     VotesResolver,
     VotesService,
+    StoriesResolver,
+    StoriesService,
   ],
 })
 export class AppModule {}
