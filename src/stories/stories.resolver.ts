@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver, Subscription } from '@nestjs/graphql';
+import { Args, Query, Mutation, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { Story } from 'src/graphql';
 import { StoriesService } from './stories.service';
@@ -11,6 +11,11 @@ const pubSub = new PubSub();
 @Resolver()
 export class StoriesResolver {
   constructor(private storiesService: StoriesService) {}
+
+  @Query('listStoriesByRoomId')
+  listStoriesByRoomId(@Args('id') id: string) {
+    return this.listStoriesByRoomId(id);
+  }
 
   @Mutation('createStory')
   create(

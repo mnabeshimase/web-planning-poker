@@ -28,6 +28,8 @@ export class UpsertVoteInput {
 export abstract class IQuery {
     abstract room(id: string): Room | Promise<Room>;
 
+    abstract listStoriesByRoomId(id: string): Story[] | Promise<Story[]>;
+
     abstract listVotesByRoomId(id: string): Vote[] | Promise<Vote[]>;
 }
 

@@ -1,3 +1,7 @@
+type Query {
+  listStoriesByRoomId(id: ID!): [Story!]
+}
+
 type Mutation {
   createStory(roomId: String!, description: String!): Story!
 }
