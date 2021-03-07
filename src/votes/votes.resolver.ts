@@ -18,9 +18,9 @@ export class VotesResolver {
     return vote;
   }
 
-  @Query('listVotesByRoomId')
-  listVotesByRoomId(@Args('id') id: string) {
-    return this.votesService.listVotesByRoomId(id);
+  @Query('listVotesByStoryId')
+  listVotesByStoryId(@Args('id') id: string) {
+    return this.votesService.listVotesByStoryId(id);
   }
 
   @Subscription()

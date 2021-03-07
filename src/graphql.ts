@@ -15,14 +15,20 @@ export enum Phase {
 export class UpdateRoomInput {
     id: string;
     userIds?: string[];
-    voteIds?: string[];
     phase?: Phase;
     currentStoryId?: string;
 }
 
+export class UpdateStoryInput {
+    id: string;
+    roomId: string;
+    description?: string;
+    voteIds?: string[];
+}
+
 export class UpsertVoteInput {
     userId: string;
-    roomId: string;
+    storyId: string;
     score: string;
 }
 
@@ -31,13 +37,15 @@ export abstract class IQuery {
 
     abstract listStoriesByRoomId(id: string): Story[] | Promise<Story[]>;
 
-    abstract listVotesByRoomId(id: string): Vote[] | Promise<Vote[]>;
+    abstract listVotesByStoryId(id: string): Vote[] | Promise<Vote[]>;
 }
 
 export abstract class IMutation {
     abstract updateRoom(updateRoomInput: UpdateRoomInput): Room | Promise<Room>;
 
     abstract createStory(roomId: string, description: string): Story | Promise<Story>;
+
+    abstract updateStory(updateStoryInput?: UpdateStoryInput): Story | Promise<Story>;
 
     abstract createUser(name: string, roomId?: string): User | Promise<User>;
 
@@ -61,7 +69,6 @@ export abstract class ISubscription {
 export class Room {
     id: string;
     users?: User[];
-    votes?: Vote[];
     phase: Phase;
     stories?: Story[];
     currentStoryId?: string;
@@ -71,6 +78,7 @@ export class Story {
     id: string;
     roomId: string;
     description: string;
+    votes?: Vote[];
 }
 
 export class User {
@@ -81,6 +89,6 @@ export class User {
 
 export class Vote {
     userId: string;
-    roomId: string;
+    storyId: string;
     score: string;
 }

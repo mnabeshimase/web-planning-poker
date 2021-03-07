@@ -19,7 +19,6 @@ type Subscription {
 type Room {
   id: ID!
   users: [User!]
-  votes: [Vote!]
   phase: Phase!
   stories: [Story!]
   currentStoryId: ID
@@ -28,7 +27,6 @@ type Room {
 input UpdateRoomInput {
   id: ID!
   userIds: [ID!]
-  voteIds: [ID!]
   phase: Phase
   currentStoryId: ID
 }

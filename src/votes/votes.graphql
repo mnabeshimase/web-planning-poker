@@ -1,5 +1,5 @@
 type Query {
-  listVotesByRoomId(id: ID!): [Vote]
+  listVotesByStoryId(id: ID!): [Vote]
 }
 
 type Mutation {
@@ -12,12 +12,12 @@ type Subscription {
 
 type Vote {
   userId: ID!
-  roomId: ID!
+  storyId: ID!
   score: String!
 }
 
 input UpsertVoteInput {
   userId: ID!
-  roomId: ID!
+  storyId: ID!
   score: String!
 }

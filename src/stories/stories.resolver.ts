@@ -1,6 +1,15 @@
-import { Args, Query, Mutation, Resolver, Subscription } from '@nestjs/graphql';
+import {
+  Args,
+  Query,
+  Mutation,
+  Resolver,
+  Subscription,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
-import { Story } from 'src/graphql';
+import { Story, Vote } from 'src/graphql';
+import { VotesService } from 'src/votes/votes.service';
 import { StoriesService } from './stories.service';
 
 const STORY_CREATED = 'storyCreated';
@@ -10,7 +19,10 @@ const pubSub = new PubSub();
 
 @Resolver()
 export class StoriesResolver {
-  constructor(private storiesService: StoriesService) {}
+  constructor(
+    private storiesService: StoriesService,
+    private votesService: VotesService,
+  ) {}
 
   @Query('listStoriesByRoomId')
   listStoriesByRoomId(@Args('id') id: string) {
@@ -30,5 +42,11 @@ export class StoriesResolver {
   @Subscription()
   storyCreated() {
     return pubSub.asyncIterator(STORY_CREATED);
+  }
+
+  @ResolveField()
+  votes(@Parent() story: Story): Vote[] {
+    const { id } = story;
+    return this.votesService.listVotesByStoryId(id);
   }
 }

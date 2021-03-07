@@ -7,7 +7,7 @@ export class VotesService {
   upsert(upsertVoteInput: UpsertVoteInput): Vote {
     const oldVote = this.votes.find(
       (vote) =>
-        vote.roomId === upsertVoteInput.roomId &&
+        vote.storyId === upsertVoteInput.storyId &&
         vote.userId === upsertVoteInput.userId,
     );
     if (oldVote) {
@@ -18,7 +18,7 @@ export class VotesService {
     return upsertVoteInput;
   }
 
-  listVotesByRoomId(id: string) {
-    return this.votes.filter((vote) => vote.roomId === id);
+  listVotesByStoryId(id: string) {
+    return this.votes.filter((vote) => vote.storyId === id);
   }
 }

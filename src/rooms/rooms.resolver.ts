@@ -52,12 +52,6 @@ export class RoomsResolver {
   }
 
   @ResolveField()
-  votes(@Parent() room: Room): Vote[] {
-    const { id } = room;
-    return this.votesService.listVotesByRoomId(id);
-  }
-
-  @ResolveField()
   stories(@Parent() room: Room): Story[] {
     const { id } = room;
     return this.storiesService.listStoriesByRoomId(id);
