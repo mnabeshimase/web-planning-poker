@@ -10,8 +10,8 @@ export class RoomsService {
     return { id };
   }
 
-  create(): Room {
-    const room = { id: uuidv4(), users: [] };
+  create(hostUserId: string): Room {
+    const room = { id: uuidv4(), hostUserId };
     this.rooms = [...this.rooms, room];
     return room;
   }

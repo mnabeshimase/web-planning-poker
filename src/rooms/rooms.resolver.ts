@@ -23,11 +23,6 @@ export class RoomsResolver {
     return this.roomsService.get(id);
   }
 
-  @Mutation('createRoom')
-  create(): Room {
-    return this.roomsService.create();
-  }
-
   @ResolveField()
   users(@Parent() room: Room): User[] {
     const { id } = room;

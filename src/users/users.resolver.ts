@@ -14,7 +14,7 @@ export class UsersResolver {
   constructor(private usersService: UsersService) {}
 
   @Mutation('createUser')
-  create(@Args('name') name: string, @Args('roomId') roomId: string): User {
+  create(@Args('name') name: string, @Args('roomId') roomId?: string): User {
     const user = this.usersService.create(name, roomId);
     // TODO: Limit the scope of publish to the room
     pubSub.publish(USER_CREATED, { userCreated: user });

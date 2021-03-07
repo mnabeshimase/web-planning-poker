@@ -1,5 +1,5 @@
 type Mutation {
-  createUser(name: String!, roomId: ID!): User!
+  createUser(name: String!, roomId: ID): User!
   deleteUser(id: ID!): User!
 }
 

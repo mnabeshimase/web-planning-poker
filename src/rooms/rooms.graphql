@@ -2,10 +2,6 @@ type Query {
   room(id: ID!): Room!
 }
 
-type Mutation {
-  createRoom: Room!
-}
-
 type Room {
   id: ID!
   users: [User!]

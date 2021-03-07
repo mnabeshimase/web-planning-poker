@@ -10,17 +10,15 @@ export abstract class IQuery {
     abstract room(id: string): Room | Promise<Room>;
 }
 
-export abstract class IMutation {
-    abstract createRoom(): Room | Promise<Room>;
-
-    abstract createUser(name: string, roomId: string): User | Promise<User>;
-
-    abstract deleteUser(id: string): User | Promise<User>;
-}
-
 export class Room {
     id: string;
     users?: User[];
+}
+
+export abstract class IMutation {
+    abstract createUser(name: string, roomId?: string): User | Promise<User>;
+
+    abstract deleteUser(id: string): User | Promise<User>;
 }
 
 export abstract class ISubscription {
