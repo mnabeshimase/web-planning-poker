@@ -32,7 +32,7 @@ export class RoomsResolver {
   }
 
   @Mutation('updateRoom')
-  update(@Args() updateRoomInput: UpdateRoomInput): Room {
+  update(@Args('updateRoomInput') updateRoomInput: UpdateRoomInput): Room {
     const room = this.roomsService.update(updateRoomInput);
     pubSub.publish(ROOM_UPDATED, { roomUpdated: room });
     return room;
