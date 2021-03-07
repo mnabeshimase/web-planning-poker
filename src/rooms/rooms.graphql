@@ -8,8 +8,12 @@ type Query {
   room(id: ID!): Room!
 }
 
+type Mutation {
+  updateRoom(updateRoomInput: UpdateRoomInput!): Room!
+}
+
 type Subscription {
-  roomUpdated: Room
+  roomUpdated: Room!
 }
 
 type Room {
@@ -17,4 +21,11 @@ type Room {
   users: [User!]
   votes: [Vote!]
   phase: Phase!
+}
+
+input UpdateRoomInput {
+  id: ID!
+  userIds: [ID!]
+  voteIds: [ID!]
+  phase: Phase
 }

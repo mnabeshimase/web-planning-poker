@@ -12,6 +12,13 @@ export enum Phase {
     DISCUSSION = "DISCUSSION"
 }
 
+export class UpdateRoomInput {
+    id: string;
+    userIds?: string[];
+    voteIds?: string[];
+    phase?: Phase;
+}
+
 export class UpsertVoteInput {
     userId: string;
     roomId: string;
@@ -22,6 +29,16 @@ export abstract class IQuery {
     abstract room(id: string): Room | Promise<Room>;
 
     abstract listVotesByRoomId(id: string): Vote[] | Promise<Vote[]>;
+}
+
+export abstract class IMutation {
+    abstract updateRoom(updateRoomInput: UpdateRoomInput): Room | Promise<Room>;
+
+    abstract createUser(name: string, roomId?: string): User | Promise<User>;
+
+    abstract deleteUser(id: string): User | Promise<User>;
+
+    abstract upsertVote(upsertVoteInput: UpsertVoteInput): Vote | Promise<Vote>;
 }
 
 export abstract class ISubscription {
@@ -39,14 +56,6 @@ export class Room {
     users?: User[];
     votes?: Vote[];
     phase: Phase;
-}
-
-export abstract class IMutation {
-    abstract createUser(name: string, roomId?: string): User | Promise<User>;
-
-    abstract deleteUser(id: string): User | Promise<User>;
-
-    abstract upsertVote(upsertVoteInput: UpsertVoteInput): Vote | Promise<Vote>;
 }
 
 export class User {

@@ -5,11 +5,12 @@ import {
   ResolveField,
   Parent,
   Subscription,
+  Mutation,
 } from '@nestjs/graphql';
 
+import { Room, User, Vote, UpdateRoomInput } from '../graphql';
 import { UsersService } from 'src/users/users.service';
 import { RoomsService } from './rooms.service';
-import { Room, User, Vote } from '../graphql';
 import { VotesService } from 'src/votes/votes.service';
 import { PubSub } from 'graphql-subscriptions';
 
@@ -28,6 +29,13 @@ export class RoomsResolver {
   @Query('room')
   get(@Args('id') id: string): Room {
     return this.roomsService.get(id);
+  }
+
+  @Mutation('updateRoom')
+  update(@Args() updateRoomInput: UpdateRoomInput): Room {
+    const room = this.roomsService.update(updateRoomInput);
+    pubSub.publish(ROOM_UPDATED, { roomUpdated: room });
+    return room;
   }
 
   @Subscription()
