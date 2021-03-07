@@ -21,6 +21,7 @@ export abstract class IQuery {
 export class Room {
     id: string;
     users?: User[];
+    votes?: Vote[];
 }
 
 export abstract class IMutation {
