@@ -8,6 +8,10 @@ type Query {
   room(id: ID!): Room!
 }
 
+type Subscription {
+  roomUpdated: Room
+}
+
 type Room {
   id: ID!
   users: [User!]

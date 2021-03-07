@@ -24,6 +24,16 @@ export abstract class IQuery {
     abstract listVotesByRoomId(id: string): Vote[] | Promise<Vote[]>;
 }
 
+export abstract class ISubscription {
+    abstract roomUpdated(): Room | Promise<Room>;
+
+    abstract userCreated(): User | Promise<User>;
+
+    abstract userDeleted(): User | Promise<User>;
+
+    abstract voteUpserted(): Vote | Promise<Vote>;
+}
+
 export class Room {
     id: string;
     users?: User[];
@@ -37,14 +47,6 @@ export abstract class IMutation {
     abstract deleteUser(id: string): User | Promise<User>;
 
     abstract upsertVote(upsertVoteInput: UpsertVoteInput): Vote | Promise<Vote>;
-}
-
-export abstract class ISubscription {
-    abstract userCreated(): User | Promise<User>;
-
-    abstract userDeleted(): User | Promise<User>;
-
-    abstract voteUpserted(): Vote | Promise<Vote>;
 }
 
 export class User {

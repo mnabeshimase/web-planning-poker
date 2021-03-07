@@ -1,10 +1,22 @@
-import { Args, Resolver, Query, ResolveField, Parent } from '@nestjs/graphql';
+import {
+  Args,
+  Resolver,
+  Query,
+  ResolveField,
+  Parent,
+  Subscription,
+} from '@nestjs/graphql';
 
 import { UsersService } from 'src/users/users.service';
 import { RoomsService } from './rooms.service';
 import { Room, User, Vote } from '../graphql';
 import { VotesService } from 'src/votes/votes.service';
+import { PubSub } from 'graphql-subscriptions';
 
+const ROOM_UPDATED = 'roomUpdated';
+
+// TODO: inject pubsub as dependency
+const pubSub = new PubSub();
 @Resolver('Room')
 export class RoomsResolver {
   constructor(
@@ -16,6 +28,11 @@ export class RoomsResolver {
   @Query('room')
   get(@Args('id') id: string): Room {
     return this.roomsService.get(id);
+  }
+
+  @Subscription()
+  roomUpdated() {
+    return pubSub.asyncIterator(ROOM_UPDATED);
   }
 
   @ResolveField()
