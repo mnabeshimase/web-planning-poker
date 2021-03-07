@@ -9,6 +9,14 @@ export class UsersService {
   private users: User[] = [];
   constructor(private roomsService: RoomsService) {}
 
+  get(id: string): User {
+    const user = this.users.find((user) => user.id === id);
+    if (user) {
+      throw new NotFoundException();
+    }
+    return user;
+  }
+
   create(name: string, roomId?: string): User {
     const userId = uuidv4();
     if (!roomId) {
