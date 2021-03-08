@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 
-import { Phase, Room, UpdateRoomInput } from 'src/graphql';
+import { Room, Phase, UpdateRoomInput } from './models/room.model';
 
 @Injectable()
 export class RoomsService {

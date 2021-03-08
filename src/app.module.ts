@@ -20,12 +20,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
   imports: [
     GraphQLModule.forRoot({
-      definitions: {
-        outputAs: 'class',
-        path: join(cwd(), 'src/graphql.ts'),
-      },
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       installSubscriptionHandlers: true,
-      typePaths: ['./**/*.graphql'],
     }),
     // TODO: use env vals and disable synchronize in prod
     TypeOrmModule.forRoot({

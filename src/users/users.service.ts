@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 
-import { User } from 'src/graphql';
+import { User } from './models/user.model';
 import { RoomsService } from 'src/rooms/rooms.service';
 
 @Injectable()

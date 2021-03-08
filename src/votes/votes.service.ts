@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { UpsertVoteInput, Vote } from 'src/graphql';
+
+import { UpsertVoteInput, Vote } from './models/vote.model';
 
 @Injectable()
 export class VotesService {

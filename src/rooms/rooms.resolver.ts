@@ -6,18 +6,21 @@ import {
   Parent,
   Subscription,
   Mutation,
+  ID,
 } from '@nestjs/graphql';
 import { Inject } from '@nestjs/common';
 import { PubSubEngine } from 'graphql-subscriptions';
 
-import { Room, User, UpdateRoomInput, Story } from '../graphql';
+import { Room, UpdateRoomInput } from './models/room.model';
+import { User } from '../users/models/user.model';
 import { UsersService } from 'src/users/users.service';
 import { RoomsService } from './rooms.service';
 import { StoriesService } from 'src/stories/stories.service';
+import { Story } from 'src/stories/models/story.model';
 
 const ROOM_UPDATED = 'roomUpdated';
 
-@Resolver('Room')
+@Resolver(() => Room)
 export class RoomsResolver {
   constructor(
     private roomsService: RoomsService,
@@ -26,13 +29,13 @@ export class RoomsResolver {
     @Inject('PUB_SUB') private pubSub: PubSubEngine,
   ) {}
 
-  @Query('room')
-  get(@Args('id') id: string): Room {
+  @Query(() => Room)
+  room(@Args('id', { type: () => ID }) id: string): Room {
     return this.roomsService.get(id);
   }
 
-  @Mutation('updateRoom')
-  update(@Args('updateRoomInput') updateRoomInput: UpdateRoomInput): Room {
+  @Mutation(() => Room)
+  updateRoom(@Args('updateRoomInput') updateRoomInput: UpdateRoomInput): Room {
     const room = this.roomsService.update(updateRoomInput);
     this.pubSub.publish(ROOM_UPDATED, { roomUpdated: room });
     return room;
@@ -41,18 +44,19 @@ export class RoomsResolver {
   @Subscription(() => Room, {
     filter: (payload, variables) => payload.roomUpdated.id === variables.roomId,
   })
-  roomUpdated() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  roomUpdated(@Args('roomId', { type: () => ID }) roomId: string) {
     return this.pubSub.asyncIterator(ROOM_UPDATED);
   }
 
-  @ResolveField()
-  users(@Parent() room: Room): User[] {
+  @ResolveField('users', () => [User])
+  users(@Parent() room: Room) {
     const { id } = room;
     return this.usersService.listByRoomId(id);
   }
 
-  @ResolveField()
-  stories(@Parent() room: Room): Story[] {
+  @ResolveField('stories', () => [Story])
+  stories(@Parent() room: Room) {
     const { id } = room;
     return this.storiesService.listStoriesByRoomId(id);
   }

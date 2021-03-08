@@ -1,0 +1,71 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Vote {
+  userId: ID!
+  storyId: ID!
+  score: String!
+}
+
+type Story {
+  id: ID!
+  roomId: ID!
+  description: String!
+  votes: [Vote!]
+}
+
+type User {
+  id: ID!
+  name: String!
+  roomId: ID!
+}
+
+type Room {
+  id: ID!
+  phase: Phase!
+  currentStoryId: ID
+  users: [User!]
+  stories: [Story!]
+}
+
+enum Phase {
+  INIT
+  VOTE
+  DISCUSSION
+}
+
+type Query {
+  room(id: ID!): Room!
+  listVotesByStoryId(id: ID!): [Vote!]
+  listStoriesByRoomId(id: ID!): [Story!]
+}
+
+type Mutation {
+  updateRoom(updateRoomInput: UpdateRoomInput!): Room!
+  createUser(roomId: ID, name: String!): User!
+  deleteUser(id: ID!): User!
+  upsertVote(upsertVoteInput: UpsertVoteInput!): Vote!
+  createStory(roomId: ID!, description: String!): Story!
+}
+
+input UpdateRoomInput {
+  id: ID!
+  userIds: [ID!]
+  phase: Phase
+  currentStoryId: ID
+}
+
+input UpsertVoteInput {
+  userId: ID!
+  storyId: ID!
+  score: String!
+}
+
+type Subscription {
+  roomUpdated(roomId: ID!): Room!
+  userCreated(roomId: String!): User!
+  userDeleted(roomId: String!): User!
+  voteUpserted(roomId: ID!): Vote!
+  storyCreated(roomId: ID!): Story!
+}
