@@ -29,12 +29,19 @@ export class UsersResolver {
     return deletedUser;
   }
 
-  @Subscription()
+  @Subscription(() => User, {
+    filter: (payload, variables) => {
+      return payload.userCreated.roomId === variables.roomId;
+    },
+  })
   userCreated() {
     return pubSub.asyncIterator(USER_CREATED);
   }
 
-  @Subscription()
+  @Subscription(() => User, {
+    filter: (payload, variables) =>
+      payload.userDeleted.roomId === variables.roomId,
+  })
   userDeleted() {
     return pubSub.asyncIterator(USER_DELETED);
   }

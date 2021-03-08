@@ -39,7 +39,11 @@ export class StoriesResolver {
     return story;
   }
 
-  @Subscription()
+  @Subscription(() => Story, {
+    filter: (payload, variables) => {
+      return payload.storyCreated.roomId === variables.roomId;
+    },
+  })
   storyCreated() {
     return pubSub.asyncIterator(STORY_CREATED);
   }

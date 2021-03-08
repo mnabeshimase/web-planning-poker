@@ -4,8 +4,8 @@ type Mutation {
 }
 
 type Subscription {
-  userCreated: User
-  userDeleted: User
+  userCreated(roomId: ID!): User!
+  userDeleted(roomId: ID!): User!
 }
 
 type User {

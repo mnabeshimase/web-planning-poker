@@ -55,15 +55,15 @@ export abstract class IMutation {
 }
 
 export abstract class ISubscription {
-    abstract roomUpdated(): Room | Promise<Room>;
+    abstract roomUpdated(roomId: string): Room | Promise<Room>;
 
-    abstract storyCreated(): Story | Promise<Story>;
+    abstract storyCreated(roomId: string): Story | Promise<Story>;
 
-    abstract userCreated(): User | Promise<User>;
+    abstract userCreated(roomId: string): User | Promise<User>;
 
-    abstract userDeleted(): User | Promise<User>;
+    abstract userDeleted(roomId: string): User | Promise<User>;
 
-    abstract voteUpserted(): Vote | Promise<Vote>;
+    abstract voteUpserted(roomId: string): Vote | Promise<Vote>;
 }
 
 export class Room {

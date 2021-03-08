@@ -40,7 +40,9 @@ export class RoomsResolver {
     return room;
   }
 
-  @Subscription()
+  @Subscription(() => Room, {
+    filter: (payload, variables) => payload.roomUpdated.id === variables.roomId,
+  })
   roomUpdated() {
     return pubSub.asyncIterator(ROOM_UPDATED);
   }
