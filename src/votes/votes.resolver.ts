@@ -1,25 +1,24 @@
+import { Inject } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
-import { PubSub } from 'graphql-subscriptions';
-import { Console } from 'node:console';
+import { PubSubEngine } from 'graphql-subscriptions';
+
 import { UpsertVoteInput, Vote } from 'src/graphql';
 import { StoriesService } from 'src/stories/stories.service';
 import { VotesService } from './votes.service';
 
 const VOTE_UPSERTED = 'voteUpserted';
 
-// TODO: inject pubsub as dependency
-const pubSub = new PubSub();
-
 @Resolver('Vote')
 export class VotesResolver {
   constructor(
     private votesService: VotesService,
     private storiesService: StoriesService,
+    @Inject('PUB_SUB') private pubSub: PubSubEngine,
   ) {}
   @Mutation('upsertVote')
   upsert(@Args('upsertVoteInput') upsertVoteInput: UpsertVoteInput): Vote {
     const vote = this.votesService.upsert(upsertVoteInput);
-    pubSub.publish(VOTE_UPSERTED, { voteUpserted: vote });
+    this.pubSub.publish(VOTE_UPSERTED, { voteUpserted: vote });
     return vote;
   }
 
@@ -38,6 +37,6 @@ export class VotesResolver {
     },
   })
   voteUpserted() {
-    return pubSub.asyncIterator(VOTE_UPSERTED);
+    return this.pubSub.asyncIterator(VOTE_UPSERTED);
   }
 }

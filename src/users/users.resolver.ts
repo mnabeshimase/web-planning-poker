@@ -1,23 +1,25 @@
+import { Inject } from '@nestjs/common';
 import { Args, Mutation, Resolver, Subscription } from '@nestjs/graphql';
-import { PubSub } from 'graphql-subscriptions';
+import { PubSubEngine } from 'graphql-subscriptions';
+
 import { User } from 'src/graphql';
 import { UsersService } from './users.service';
-
-// TODO: inject pubsub as dependency
-const pubSub = new PubSub();
 
 const USER_CREATED = 'userCreated';
 const USER_DELETED = 'userDeleted';
 
 @Resolver('User')
 export class UsersResolver {
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    @Inject('PUB_SUB') private pubSub: PubSubEngine,
+  ) {}
 
   @Mutation('createUser')
   create(@Args('name') name: string, @Args('roomId') roomId?: string): User {
     const user = this.usersService.create(name, roomId);
     // TODO: Limit the scope of publish to the room
-    pubSub.publish(USER_CREATED, { userCreated: user });
+    this.pubSub.publish(USER_CREATED, { userCreated: user });
     return user;
   }
 
@@ -25,7 +27,7 @@ export class UsersResolver {
   delete(@Args('id') id: string): User {
     const deletedUser = this.usersService.delete(id);
     // TODO: Limit the scope of publish to the room
-    pubSub.publish(USER_DELETED, { userDeleted: deletedUser });
+    this.pubSub.publish(USER_DELETED, { userDeleted: deletedUser });
     return deletedUser;
   }
 
@@ -35,7 +37,7 @@ export class UsersResolver {
     },
   })
   userCreated() {
-    return pubSub.asyncIterator(USER_CREATED);
+    return this.pubSub.asyncIterator(USER_CREATED);
   }
 
   @Subscription(() => User, {
@@ -43,6 +45,6 @@ export class UsersResolver {
       payload.userDeleted.roomId === variables.roomId,
   })
   userDeleted() {
-    return pubSub.asyncIterator(USER_DELETED);
+    return this.pubSub.asyncIterator(USER_DELETED);
   }
 }

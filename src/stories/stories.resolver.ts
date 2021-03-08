@@ -1,3 +1,4 @@
+import { Inject } from '@nestjs/common';
 import {
   Args,
   Query,
@@ -7,21 +8,20 @@ import {
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
-import { PubSub } from 'graphql-subscriptions';
+import { PubSubEngine } from 'graphql-subscriptions';
+
 import { Story, Vote } from 'src/graphql';
 import { VotesService } from 'src/votes/votes.service';
 import { StoriesService } from './stories.service';
 
 const STORY_CREATED = 'storyCreated';
 
-// TODO: inject pubsub as dependency
-const pubSub = new PubSub();
-
 @Resolver('Story')
 export class StoriesResolver {
   constructor(
     private storiesService: StoriesService,
     private votesService: VotesService,
+    @Inject('PUB_SUB') private pubSub: PubSubEngine,
   ) {}
 
   @Query('listStoriesByRoomId')
@@ -35,7 +35,7 @@ export class StoriesResolver {
     @Args('description') description: string,
   ): Story {
     const story = this.storiesService.create(roomId, description);
-    pubSub.publish(STORY_CREATED, { storyCreated: story });
+    this.pubSub.publish(STORY_CREATED, { storyCreated: story });
     return story;
   }
 
@@ -45,7 +45,7 @@ export class StoriesResolver {
     },
   })
   storyCreated() {
-    return pubSub.asyncIterator(STORY_CREATED);
+    return this.pubSub.asyncIterator(STORY_CREATED);
   }
 
   @ResolveField()
