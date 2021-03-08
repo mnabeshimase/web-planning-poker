@@ -5,3 +5,9 @@ services:
     ports:
       - '6379:6379'
     image: 'redis'
+  postgres:
+    image: postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: pass123 # TODO: change and move to secret

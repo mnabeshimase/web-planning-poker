@@ -15,6 +15,7 @@ import { VotesResolver } from './votes/votes.resolver';
 import { VotesService } from './votes/votes.service';
 import { StoriesResolver } from './stories/stories.resolver';
 import { StoriesService } from './stories/stories.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
@@ -25,6 +26,17 @@ import { StoriesService } from './stories/stories.service';
       },
       installSubscriptionHandlers: true,
       typePaths: ['./**/*.graphql'],
+    }),
+    // TODO: use env vals and disable synchronize in prod
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'postgres',
+      password: 'pass123',
+      database: 'postgres',
+      autoLoadEntities: true,
+      synchronize: true,
     }),
   ],
   controllers: [AppController],
