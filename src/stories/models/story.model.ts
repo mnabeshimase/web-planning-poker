@@ -1,5 +1,5 @@
 import { ObjectType, Field, InputType, ID } from '@nestjs/graphql';
-import { Vote } from 'src/votes/models/vote.model';
+import { Vote } from '../../votes/models/vote.model';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()

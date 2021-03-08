@@ -5,8 +5,8 @@ import {
   InputType,
   ID,
 } from '@nestjs/graphql';
-import { Story } from 'src/stories/models/story.model';
-import { User } from 'src/users/models/user.model';
+import { Story } from '../../stories/models/story.model';
+import { User } from '../../users/models/user.model';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum Phase {

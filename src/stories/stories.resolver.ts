@@ -13,7 +13,7 @@ import { PubSubEngine } from 'graphql-subscriptions';
 
 import { Story } from './models/story.model';
 import { Vote } from '../votes/models/vote.model';
-import { VotesService } from 'src/votes/votes.service';
+import { VotesService } from '../votes/votes.service';
 import { StoriesService } from './stories.service';
 
 const STORY_CREATED = 'storyCreated';

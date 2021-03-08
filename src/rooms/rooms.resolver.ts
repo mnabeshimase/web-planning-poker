@@ -11,12 +11,12 @@ import {
 import { Inject } from '@nestjs/common';
 import { PubSubEngine } from 'graphql-subscriptions';
 
-import { Room, UpdateRoomInput } from './models/room.model';
-import { User } from '../users/models/user.model';
-import { UsersService } from 'src/users/users.service';
 import { RoomsService } from './rooms.service';
-import { StoriesService } from 'src/stories/stories.service';
-import { Story } from 'src/stories/models/story.model';
+import { StoriesService } from '../stories/stories.service';
+import { UsersService } from '../users/users.service';
+import { Room, UpdateRoomInput } from './models/room.model';
+import { Story } from '../stories/models/story.model';
+import { User } from '../users/models/user.model';
 
 const ROOM_UPDATED = 'roomUpdated';
 

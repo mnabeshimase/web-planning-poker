@@ -10,7 +10,7 @@ import {
 import { PubSubEngine } from 'graphql-subscriptions';
 
 import { Vote, UpsertVoteInput } from './models/vote.model';
-import { StoriesService } from 'src/stories/stories.service';
+import { StoriesService } from '../stories/stories.service';
 import { VotesService } from './votes.service';
 
 const VOTE_UPSERTED = 'voteUpserted';
