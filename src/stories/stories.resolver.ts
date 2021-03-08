@@ -17,7 +17,7 @@ const STORY_CREATED = 'storyCreated';
 // TODO: inject pubsub as dependency
 const pubSub = new PubSub();
 
-@Resolver()
+@Resolver('Story')
 export class StoriesResolver {
   constructor(
     private storiesService: StoriesService,

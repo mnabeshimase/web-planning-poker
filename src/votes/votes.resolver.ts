@@ -8,7 +8,7 @@ const VOTE_UPSERTED = 'voteUpserted';
 // TODO: inject pubsub as dependency
 const pubSub = new PubSub();
 
-@Resolver()
+@Resolver('Vote')
 export class VotesResolver {
   constructor(private votesService: VotesService) {}
   @Mutation('upsertVote')

@@ -1,5 +1,5 @@
 type Query {
-  listVotesByStoryId(id: ID!): [Vote]
+  listVotesByStoryId(id: ID!): [Vote!]
 }
 
 type Mutation {
@@ -7,7 +7,7 @@ type Mutation {
 }
 
 type Subscription {
-  voteUpserted: Vote
+  voteUpserted: Vote!
 }
 
 type Vote {
