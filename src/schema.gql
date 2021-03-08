@@ -2,6 +2,12 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type User {
+  id: ID!
+  name: String!
+  roomId: ID!
+}
+
 type Vote {
   userId: ID!
   storyId: ID!
@@ -13,12 +19,6 @@ type Story {
   roomId: ID!
   description: String!
   votes: [Vote!]
-}
-
-type User {
-  id: ID!
-  name: String!
-  roomId: ID!
 }
 
 type Room {
@@ -37,16 +37,16 @@ enum Phase {
 
 type Query {
   room(id: ID!): Room!
-  listVotesByStoryId(id: ID!): [Vote!]
   listStoriesByRoomId(id: ID!): [Story!]
+  listVotesByStoryId(id: ID!): [Vote!]
 }
 
 type Mutation {
-  updateRoom(updateRoomInput: UpdateRoomInput!): Room!
   createUser(roomId: ID, name: String!): User!
   deleteUser(id: ID!): User!
-  upsertVote(upsertVoteInput: UpsertVoteInput!): Vote!
+  updateRoom(updateRoomInput: UpdateRoomInput!): Room!
   createStory(roomId: ID!, description: String!): Story!
+  upsertVote(upsertVoteInput: UpsertVoteInput!): Vote!
 }
 
 input UpdateRoomInput {
@@ -63,9 +63,9 @@ input UpsertVoteInput {
 }
 
 type Subscription {
-  roomUpdated(roomId: ID!): Room!
   userCreated(roomId: String!): User!
   userDeleted(roomId: String!): User!
-  voteUpserted(roomId: ID!): Vote!
+  roomUpdated(roomId: ID!): Room!
   storyCreated(roomId: ID!): Story!
+  voteUpserted(roomId: ID!): Vote!
 }
