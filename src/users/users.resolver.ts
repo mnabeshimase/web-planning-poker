@@ -16,18 +16,18 @@ export class UsersResolver {
   ) {}
 
   @Mutation(() => User)
-  createUser(
+  async createUser(
     @Args('name') name: string,
     @Args('roomId', { type: () => ID, nullable: true }) roomId?: string,
-  ): User {
-    const user = this.usersService.create(name, roomId);
+  ): Promise<User> {
+    const user = await this.usersService.create(name, roomId);
     this.pubSub.publish(USER_CREATED, { userCreated: user });
     return user;
   }
 
   @Mutation(() => User)
-  deleteUser(@Args('id', { type: () => ID }) id: string): User {
-    const deletedUser = this.usersService.delete(id);
+  async deleteUser(@Args('id', { type: () => ID }) id: string): Promise<User> {
+    const deletedUser = await this.usersService.delete(id);
     this.pubSub.publish(USER_DELETED, { userDeleted: deletedUser });
     return deletedUser;
   }

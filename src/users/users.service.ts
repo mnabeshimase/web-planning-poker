@@ -3,42 +3,40 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { User } from './models/user.model';
 import { RoomsService } from 'src/rooms/rooms.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
-  private users: User[] = [];
-  constructor(private roomsService: RoomsService) {}
+  constructor(
+    @InjectRepository(User) private userRepository: Repository<User>,
+    private roomsService: RoomsService,
+  ) {}
 
-  get(id: string): User {
-    const user = this.users.find((user) => user.id === id);
+  async get(id: string): Promise<User> {
+    const user = await this.userRepository.findOne(id);
     if (user) {
       throw new NotFoundException();
     }
     return user;
   }
 
-  create(name: string, roomId?: string): User {
-    const userId = uuidv4();
+  async create(name: string, roomId?: string): Promise<User> {
     if (!roomId) {
-      const room = this.roomsService.create(userId);
+      const room = await this.roomsService.create();
       roomId = room.id;
     }
 
-    const user = { id: userId, name, roomId };
-    this.users.push(user);
-    return user;
+    const user = this.userRepository.create({ name, roomId });
+    return this.userRepository.save(user);
   }
 
-  listByRoomId(id: string): User[] {
-    return this.users.filter((user) => user.roomId === id);
+  listByRoomId(id: string): Promise<User[]> {
+    return this.userRepository.find({ where: { roomId: id } });
   }
 
-  delete(id: string): User {
-    const deletedUser = this.users.find((user) => user.id === id);
-    if (!deletedUser) {
-      throw new NotFoundException('user does not exist');
-    }
-    this.users = this.users.filter((user) => user !== deletedUser);
-    return deletedUser;
+  async delete(id: string): Promise<User> {
+    const user = await this.get(id);
+    return this.userRepository.remove(user);
   }
 }

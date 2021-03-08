@@ -1,37 +1,35 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 import { Room, Phase, UpdateRoomInput } from './models/room.model';
 
 @Injectable()
 export class RoomsService {
-  private rooms: Room[] = [];
-  get(id: string): Room {
-    const room = this.rooms.find((room) => room.id === id);
+  constructor(
+    @InjectRepository(Room)
+    private roomRepository: Repository<Room>,
+  ) {}
+  async get(id: string): Promise<Room> {
+    const room = await this.roomRepository.findOne(id);
     if (!room) {
       throw new NotFoundException();
     }
     return room;
   }
 
-  create(hostUserId: string): Room {
-    const room = { id: uuidv4(), hostUserId, phase: Phase.INIT };
-    this.rooms = [...this.rooms, room];
-    return room;
+  create(): Promise<Room> {
+    const room = this.roomRepository.create({
+      phase: Phase.INIT,
+    });
+    return this.roomRepository.save(room);
   }
 
-  update(updateRoomInput: UpdateRoomInput): Room {
-    const roomIdx = this.rooms.findIndex(
-      (room) => room.id === updateRoomInput.id,
-    );
-    if (roomIdx < 0) {
+  async update(updateRoomInput: UpdateRoomInput): Promise<Room> {
+    const room = await this.roomRepository.preload(updateRoomInput);
+    if (!room) {
       throw new NotFoundException();
     }
-    this.rooms[roomIdx] = {
-      ...this.rooms[roomIdx],
-      ...updateRoomInput,
-    };
-
-    return this.rooms[roomIdx];
+    return this.roomRepository.save(room);
   }
 }

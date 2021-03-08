@@ -30,13 +30,15 @@ export class RoomsResolver {
   ) {}
 
   @Query(() => Room)
-  room(@Args('id', { type: () => ID }) id: string): Room {
+  room(@Args('id', { type: () => ID }) id: string): Promise<Room> {
     return this.roomsService.get(id);
   }
 
   @Mutation(() => Room)
-  updateRoom(@Args('updateRoomInput') updateRoomInput: UpdateRoomInput): Room {
-    const room = this.roomsService.update(updateRoomInput);
+  async updateRoom(
+    @Args('updateRoomInput') updateRoomInput: UpdateRoomInput,
+  ): Promise<Room> {
+    const room = await this.roomsService.update(updateRoomInput);
     this.pubSub.publish(ROOM_UPDATED, { roomUpdated: room });
     return room;
   }

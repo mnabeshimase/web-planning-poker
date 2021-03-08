@@ -7,6 +7,7 @@ import {
 } from '@nestjs/graphql';
 import { Story } from 'src/stories/models/story.model';
 import { User } from 'src/users/models/user.model';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum Phase {
   INIT,
@@ -18,14 +19,18 @@ registerEnumType(Phase, {
   name: 'Phase',
 });
 
+@Entity()
 @ObjectType()
 export class Room {
+  @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
   id: string;
 
+  @Column()
   @Field(() => Phase)
   phase: Phase;
 
+  @Column({ nullable: true })
   @Field(() => ID, { nullable: true })
   currentStoryId?: string;
 
