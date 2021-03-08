@@ -24,9 +24,11 @@ export class VotesResolver {
   ) {}
 
   @Mutation(() => Vote)
-  upsertVote(@Args('upsertVoteInput') upsertVoteInput: UpsertVoteInput): Vote {
-    const vote = this.votesService.upsert(upsertVoteInput);
-    this.pubSub.publish(VOTE_UPSERTED, { voteUpserted: vote });
+  async upsertVote(
+    @Args('upsertVoteInput') upsertVoteInput: UpsertVoteInput,
+  ): Promise<Vote> {
+    const vote = await this.votesService.upsert(upsertVoteInput);
+    await this.pubSub.publish(VOTE_UPSERTED, { voteUpserted: vote });
     return vote;
   }
 
@@ -36,11 +38,11 @@ export class VotesResolver {
   }
 
   @Subscription(() => Vote, {
-    filter(this: VotesResolver, payload, variables) {
+    async filter(this: VotesResolver, payload, variables) {
       const {
         voteUpserted: { storyId },
       } = payload;
-      const { roomId } = this.storiesService.get(storyId);
+      const { roomId } = await this.storiesService.get(storyId);
       return roomId === variables.roomId;
     },
   })

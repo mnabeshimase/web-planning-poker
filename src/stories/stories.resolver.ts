@@ -27,17 +27,19 @@ export class StoriesResolver {
   ) {}
 
   @Query(() => [Story], { nullable: true })
-  listStoriesByRoomId(@Args('id', { type: () => ID }) id: string) {
+  listStoriesByRoomId(
+    @Args('id', { type: () => ID }) id: string,
+  ): Promise<Story[]> {
     return this.storiesService.listStoriesByRoomId(id);
   }
 
   @Mutation(() => Story)
-  createStory(
+  async createStory(
     @Args('description') description: string,
     @Args('roomId', { type: () => ID }) roomId: string,
-  ): Story {
-    const story = this.storiesService.create(roomId, description);
-    this.pubSub.publish(STORY_CREATED, { storyCreated: story });
+  ): Promise<Story> {
+    const story = await this.storiesService.create(roomId, description);
+    await this.pubSub.publish(STORY_CREATED, { storyCreated: story });
     return story;
   }
 
@@ -52,7 +54,7 @@ export class StoriesResolver {
   }
 
   @ResolveField('votes', () => [Vote])
-  votes(@Parent() story: Story): Vote[] {
+  votes(@Parent() story: Story): Promise<Vote[]> {
     const { id } = story;
     return this.votesService.listVotesByStoryId(id);
   }

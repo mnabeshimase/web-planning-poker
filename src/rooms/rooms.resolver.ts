@@ -39,7 +39,7 @@ export class RoomsResolver {
     @Args('updateRoomInput') updateRoomInput: UpdateRoomInput,
   ): Promise<Room> {
     const room = await this.roomsService.update(updateRoomInput);
-    this.pubSub.publish(ROOM_UPDATED, { roomUpdated: room });
+    await this.pubSub.publish(ROOM_UPDATED, { roomUpdated: room });
     return room;
   }
 

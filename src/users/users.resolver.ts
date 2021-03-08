@@ -21,14 +21,14 @@ export class UsersResolver {
     @Args('roomId', { type: () => ID, nullable: true }) roomId?: string,
   ): Promise<User> {
     const user = await this.usersService.create(name, roomId);
-    this.pubSub.publish(USER_CREATED, { userCreated: user });
+    await this.pubSub.publish(USER_CREATED, { userCreated: user });
     return user;
   }
 
   @Mutation(() => User)
   async deleteUser(@Args('id', { type: () => ID }) id: string): Promise<User> {
     const deletedUser = await this.usersService.delete(id);
-    this.pubSub.publish(USER_DELETED, { userDeleted: deletedUser });
+    await this.pubSub.publish(USER_DELETED, { userDeleted: deletedUser });
     return deletedUser;
   }
 

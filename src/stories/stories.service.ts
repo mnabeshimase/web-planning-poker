@@ -1,31 +1,32 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 import { Story } from './models/story.model';
 
 @Injectable()
 export class StoriesService {
-  private stories: Story[] = [];
+  constructor(
+    @InjectRepository(Story) private storyRepository: Repository<Story>,
+  ) {}
 
-  get(id: string) {
-    const story = this.stories.find((story) => story.id === id);
+  async get(id: string): Promise<Story> {
+    const story = await this.storyRepository.findOne(id);
     if (!story) {
       throw new NotFoundException();
     }
     return story;
   }
 
-  listStoriesByRoomId(id: string) {
-    return this.stories.filter((story) => story.roomId === id);
+  listStoriesByRoomId(id: string): Promise<Story[]> {
+    return this.storyRepository.find({ where: { roomId: id } });
   }
 
-  create(roomId: string, description: string) {
-    const story = {
-      id: uuidv4(),
+  create(roomId: string, description: string): Promise<Story> {
+    const story = this.storyRepository.create({
       roomId,
       description,
-    };
-    this.stories.push(story);
-    return story;
+    });
+    return this.storyRepository.save(story);
   }
 }
