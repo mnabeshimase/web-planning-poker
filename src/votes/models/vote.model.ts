@@ -22,7 +22,7 @@ export class Vote {
 
 @InputType()
 export class UpsertVoteInput {
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   id: string;
 
   @Field(() => ID)
