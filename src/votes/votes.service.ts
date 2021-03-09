@@ -9,8 +9,17 @@ export class VotesService {
   constructor(
     @InjectRepository(Vote) private voteRepository: Repository<Vote>,
   ) {}
-  upsert(upsertVoteInput: UpsertVoteInput): Promise<Vote> {
-    const vote = this.voteRepository.create(upsertVoteInput);
+  async upsert(upsertVoteInput: UpsertVoteInput): Promise<Vote> {
+    const oldVote = await this.voteRepository.findOne({
+      where: {
+        userId: upsertVoteInput.userId,
+        storyId: upsertVoteInput.storyId,
+      },
+    });
+    const vote = this.voteRepository.create({
+      ...oldVote,
+      ...upsertVoteInput,
+    });
     return this.voteRepository.save(vote);
   }
 
