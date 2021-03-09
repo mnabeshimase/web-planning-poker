@@ -64,8 +64,8 @@ input UpsertVoteInput {
 }
 
 type Subscription {
-  userCreated(roomId: String!): User!
-  userDeleted(roomId: String!): User!
+  userCreated(roomId: ID!): User!
+  userDeleted(roomId: ID!): User!
   roomUpdated(roomId: ID!): Room!
   storyCreated(roomId: ID!): Story!
   voteUpserted(roomId: ID!): Vote!

@@ -38,7 +38,7 @@ export class UsersResolver {
     },
   })
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  userCreated(@Args('roomId') roomId?: string) {
+  userCreated(@Args('roomId', { type: () => ID }) roomId?: string) {
     return this.pubSub.asyncIterator(USER_CREATED);
   }
 
@@ -47,7 +47,7 @@ export class UsersResolver {
       payload.userDeleted.roomId === variables.roomId,
   })
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  userDeleted(@Args('roomId') roomId: string) {
+  userDeleted(@Args('roomId', { type: () => ID }) roomId: string) {
     return this.pubSub.asyncIterator(USER_DELETED);
   }
 }
