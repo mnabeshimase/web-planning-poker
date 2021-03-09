@@ -23,6 +23,9 @@ export class Vote {
 @InputType()
 export class UpsertVoteInput {
   @Field(() => ID)
+  id: string;
+
+  @Field(() => ID)
   userId: string;
 
   @Field(() => ID)

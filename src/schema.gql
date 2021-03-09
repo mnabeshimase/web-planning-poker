@@ -57,6 +57,7 @@ input UpdateRoomInput {
 }
 
 input UpsertVoteInput {
+  id: ID!
   userId: ID!
   storyId: ID!
   score: String!
